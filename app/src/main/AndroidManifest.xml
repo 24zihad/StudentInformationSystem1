@@ -15,18 +15,18 @@
         <activity
             android:name=".NoteDetails"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".editnoteactivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
-        <activity
-            android:name=".FirebaseModel"
-            android:exported="false" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+<!--        <activity-->
+<!--            android:name=".FirebaseModel"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".CreateNotes"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".NotesActivity"
             android:exported="false" />

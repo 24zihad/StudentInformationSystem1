@@ -60,12 +60,12 @@ public class NotesActivity extends AppCompatActivity {
         firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore=FirebaseFirestore.getInstance();
 
-     //   getSupportActionBar().setTitle("All Notes");
+
 
         mcreatenotesfab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(NotesActivity.this,CreateNotes.class));
+                startActivity(new Intent(NotesActivity.this, CreateNotes.class));
 
             }
         });
