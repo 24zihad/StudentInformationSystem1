@@ -2,8 +2,8 @@ package com.example.studentinformationsystem;
 
 public class firebasemodel {
 
-    private static String title;
-    private static String content;
+    private String title;
+    private String content;
 
     public firebasemodel() {
 
@@ -16,15 +16,13 @@ public class firebasemodel {
         this.content=content;
     }
 
-    public static String getTitle() {
-        return title;
-    }
+    public String getTitle() { return title;}
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public static String getContent() {
+    public String getContent() {
         return content;
     }
 
