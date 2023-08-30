@@ -1,16 +1,15 @@
 package com.example.studentinformationsystem;
 
-public class firebasemodel {
+class FirebaseModel {
 
     private String title;
     private String content;
 
-    public firebasemodel() {
-
+    public FirebaseModel()
+    {
 
     }
-
-    public firebasemodel(String title, String content)
+    public FirebaseModel(String title, String content)
     {
         this.title=title;
         this.content=content;

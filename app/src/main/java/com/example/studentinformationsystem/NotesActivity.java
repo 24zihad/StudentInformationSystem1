@@ -1,11 +1,13 @@
 package com.example.studentinformationsystem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -45,8 +47,9 @@ public class NotesActivity extends AppCompatActivity {
 
     FirebaseUser firebaseUser;
     FirebaseFirestore firebaseFirestore;
+    FirebaseModel firebaseModel;
 
-    FirestoreRecyclerAdapter<firebasemodel,NoteViewHolder> noteAdapter;
+    FirestoreRecyclerAdapter<FirebaseModel,NoteViewHolder> noteAdapter;
 
 
     @Override
@@ -72,11 +75,12 @@ public class NotesActivity extends AppCompatActivity {
 
         Query query=firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title",Query.Direction.ASCENDING);
 
-        FirestoreRecyclerOptions<firebasemodel> allusernotes= new FirestoreRecyclerOptions.Builder<firebasemodel>().setQuery(query,firebasemodel.class).build();
+        FirestoreRecyclerOptions<FirebaseModel> allusernotes= new FirestoreRecyclerOptions.Builder<FirebaseModel>().setQuery(query,FirebaseModel.class).build();
 
-        noteAdapter= new FirestoreRecyclerAdapter<firebasemodel, NoteViewHolder>(allusernotes) {
+        noteAdapter= new FirestoreRecyclerAdapter<FirebaseModel, NoteViewHolder>(allusernotes) {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
-            protected void onBindViewHolder(@NonNull NoteViewHolder noteViewHolder, int i, @NonNull firebasemodel model) {
+            protected void onBindViewHolder(@NonNull NoteViewHolder noteViewHolder, int i, @NonNull FirebaseModel model) {
 
 
                 ImageView popupbutton=noteViewHolder.itemView.findViewById((R.id.menupopbutton));
@@ -85,8 +89,8 @@ public class NotesActivity extends AppCompatActivity {
                 noteViewHolder.mnote.setBackgroundColor(noteViewHolder.itemView.getResources().getColor(colourcode,null));
 
 
-                noteViewHolder.notetitle.setText(firebasemodel.getTitle());
-                noteViewHolder.notecontent.setText(firebasemodel.getContent());
+                noteViewHolder.notetitle.setText(model.getTitle());
+                noteViewHolder.notecontent.setText(model.getContent());
 
                 String docId=noteAdapter.getSnapshots().getSnapshot(i).getId();
 
@@ -96,8 +100,8 @@ public class NotesActivity extends AppCompatActivity {
                         //we have to open note detail activity
 
                         Intent intent=new Intent(v.getContext(),NoteDetails.class);
-                        intent.putExtra("title",firebasemodel.getTitle());
-                        intent.putExtra("content",firebasemodel.getContent());
+                        intent.putExtra("title",model.getTitle());
+                        intent.putExtra("content",model.getContent());
                         intent.putExtra("noted",docId);
                         v.getContext().startActivity(intent);
                         //Toast.makeText(getApplicationContext(), "This is Clicked", Toast.LENGTH_SHORT).show();
@@ -105,6 +109,7 @@ public class NotesActivity extends AppCompatActivity {
                 });
 
                 popupbutton.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onClick(View v) {
 
@@ -115,8 +120,8 @@ public class NotesActivity extends AppCompatActivity {
                             public boolean onMenuItemClick(@NonNull MenuItem item) {
 
                                 Intent intent=new Intent(v.getContext(),editnoteactivity.class);
-                                intent.putExtra("title",firebasemodel.getTitle());
-                                intent.putExtra("content",firebasemodel.getContent());
+                                intent.putExtra("title",model.getTitle());
+                                intent.putExtra("content",model.getContent());
                                 intent.putExtra("noted",docId);
                                 v.getContext().startActivity(intent);
                                 return false;
@@ -195,13 +200,10 @@ public class NotesActivity extends AppCompatActivity {
 
         System.out.println(item.getItemId());
 
-        switch (item.getItemId())
-       {
-           case R.id.logout:
-                firebaseAuth.signOut();
-                finish();
-                startActivity(new Intent(NotesActivity.this,MainActivity.class));
-
+        if (item.getItemId() == R.id.logout) {
+            firebaseAuth.signOut();
+            finish();
+            startActivity(new Intent(NotesActivity.this, MainActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
